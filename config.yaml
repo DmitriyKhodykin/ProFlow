@@ -1,0 +1,11 @@
+data:
+  imputation:
+    type: ffill
+  representation:
+    - hashed_feature
+    - embeddings
+    - feature_cross
+    - multimodal_input
+
+models:
+  model_1: Linear
