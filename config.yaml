@@ -1,11 +1,61 @@
+task_type:
+  - regression
+  - binary
+  - multiclass
+
+metrics:
+  regression: ['mae', 'mape', 'r2', 'rmse']
+  binary: ['accuracy', 'roc_auc', 'precision', 'recall', 'f1']
+  multiclass: ['accuracy', 'f1_weighted']
+
 data:
+  data_dir: &data_dir
+  preparation:
+    split:
+      train_size: 70
+      test_size: 20
+      valid_size: 10
   imputation:
-    type: ffill
+    type:
+      - ffill
+      - bfill
+      - auto
   representation:
     - hashed_feature
     - embeddings
     - feature_cross
     - multimodal_input
+    - regularization
 
 models:
-  model_1: Linear
+  regression:
+    - LinearRegression
+    - SGDRegressor
+    - ElasticNet
+    - SVR
+    - BayesianRidge
+    - LGBMRegressor
+  binary:
+    - LogisticRegression
+    - MultinomialNB
+    - SGDClassifier
+    - NeuralNetwork
+  multiclass:
+    - 
+  regularization:
+    - Ridge
+    - Lasso
+
+params:
+  regression:
+  binary:
+  multiclass:
+
+pipeline:
+  - preparation
+  - imputation
+  - representation
+  - fit
+  - eval
+  - inference
+  - drift_detection
