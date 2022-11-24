@@ -8,25 +8,6 @@ metrics:
   binary: ['accuracy', 'roc_auc', 'precision', 'recall', 'f1']
   multiclass: ['accuracy', 'f1_weighted']
 
-data:
-  data_dir: &data_dir
-  preparation:
-    split:
-      train_size: 70
-      test_size: 20
-      valid_size: 10
-  imputation:
-    type:
-      - ffill
-      - bfill
-      - auto
-  representation:
-    - hashed_feature
-    - embeddings
-    - feature_cross
-    - multimodal_input
-    - regularization
-
 models:
   regression:
     - LinearRegression
