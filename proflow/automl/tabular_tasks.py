@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-class AutoML:
+class FlowML:
 
     def __init__(self):
         pass
