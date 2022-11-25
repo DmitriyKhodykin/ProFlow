@@ -15,7 +15,7 @@ class DataLoader:
 
     def data_load(self, df_dir: str):
 
-        with open('proflow/data/data_config.yaml') as _config:
+        with open("../proflow/data/data_config.yaml") as _config:
             params = yaml.load(_config, Loader=SafeLoader)
             test_partition = params["data"]["preparation"]["test_size"]
             seed = params["seed"]
@@ -43,6 +43,8 @@ class DataLoader:
         shape_table.add_row(["valid_df", valid_df.shape[0], valid_df.shape[1]])
         print(shape_table)
 
+        print(train_df.head())
+
         return train_df, test_df, valid_df
 
     def data_types_detector(self):
@@ -51,4 +53,4 @@ class DataLoader:
 
 if __name__=="__main__":
     loader = DataLoader()
-    loader.data_load("../../datasets/pochta_rf/train_dataset.csv", "label")
+    loader.data_load("../../datasets/pochta_rf/train_dataset.csv")

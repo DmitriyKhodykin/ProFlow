@@ -1,11 +1,18 @@
 """AutoML Module."""
 
+import pandas as pd
+
 class AutoML:
 
     def __init__(self):
         pass
 
-    def fit(self):
+    def fit(
+        self, 
+        train_df: pd.DataFrame, 
+        test_df: pd.DataFrame,
+        label: str
+    ):
         pass
 
     def print_score(self):
