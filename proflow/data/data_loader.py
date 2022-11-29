@@ -20,7 +20,7 @@ class DataLoader:
             test_partition = params["data"]["preparation"]["test_size"]
             seed = params["seed"]
 
-        df = pd.read_csv(df_dir)
+        df = pd.read_csv(df_dir, dtype={"index_oper": "str"})
         
         train_df, temp_df = train_test_split(
             df,
