@@ -13,14 +13,19 @@ class DataLoader:
     def __init__(self):
         pass
 
-    def data_load(self, df_dir: str):
+    def data_load(
+        self, 
+        df_dir: str,
+        split_partitions: int,
+        data_imputer: bool,
+    ):
 
         with open("../proflow/data/data_config.yaml") as _config:
             params = yaml.load(_config, Loader=SafeLoader)
             test_partition = params["data"]["preparation"]["test_size"]
             seed = params["seed"]
 
-        df = pd.read_csv(df_dir, dtype={"index_oper": "str"})
+        df = pd.read_csv(df_dir, dtype={"index_oper": "str"}).head(500_000)
         
         train_df, temp_df = train_test_split(
             df,
@@ -50,7 +55,3 @@ class DataLoader:
     def data_types_detector(self):
         pass
 
-
-if __name__=="__main__":
-    loader = DataLoader()
-    loader.data_load("../../datasets/pochta_rf/train_dataset.csv")
