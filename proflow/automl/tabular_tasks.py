@@ -1,11 +1,16 @@
 """AutoML Module."""
 
 import pandas as pd
+from prettytable import PrettyTable
+
+from proflow.model.binary_tasks import BinaryTabularModels
 
 class FlowML:
 
-    def __init__(self):
-        pass
+    def __init__(self, task: str):
+        self.task = task
+        self.score = None
+        self.fitted_model = None
 
     def fit(
         self, 
@@ -13,13 +18,28 @@ class FlowML:
         test_df: pd.DataFrame,
         label: str
     ):
-        pass
+        if self.task == "binary":
+            btm = BinaryTabularModels()
+            fitted_binary_model = btm.fit(
+                train_df,
+                test_df,
+                label,
+            )
+            self.fitted_model = fitted_binary_model
 
-    def print_score(self):
-        pass
+    def score(self):
+        score_table = PrettyTable()
 
-    def predict(self):
-        pass
+        if self.run_model_results is not None:
+            score_table.field_names = ["Score", "Value"]
+            for i in range(len(self.score)):
+                score_table.add_row(["train_df", self.score[i]])
+            print(score_table)
+
+    def predict(self, test_df: pd.DataFrame):
+        if self.fitted_model is not None:
+            y_predicted = self.fitted_model.predict(test_df)
+            return y_predicted
 
     def predict_proba(self):
         pass

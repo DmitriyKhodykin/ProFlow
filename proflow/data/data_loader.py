@@ -11,7 +11,10 @@ from yaml.loader import SafeLoader
 class DataLoader:
 
     def __init__(self):
-        pass
+        with open("../proflow/data/data_config.yaml") as _config:
+            params = yaml.load(_config, Loader=SafeLoader)
+            self.test_partition = params["data"]["preparation"]["test_size"]
+            self.seed = params["seed"]
 
     def data_load(
         self, 
@@ -19,39 +22,46 @@ class DataLoader:
         split_partitions: int,
         data_imputer: bool,
     ):
-
-        with open("../proflow/data/data_config.yaml") as _config:
-            params = yaml.load(_config, Loader=SafeLoader)
-            test_partition = params["data"]["preparation"]["test_size"]
-            seed = params["seed"]
-
-        df = pd.read_csv(df_dir, dtype={"index_oper": "str"}).head(500_000)
+        df = pd.read_csv(df_dir, dtype={"index_oper": "str"}).sample(500_000)
         
         train_df, temp_df = train_test_split(
             df,
-            test_size=test_partition, 
-            random_state=seed,
-            shuffle=True,
-        )
-        
-        test_df, valid_df = train_test_split(
-            temp_df,
-            test_size=0.5,
-            random_state=seed,
+            test_size=self.test_partition, 
+            random_state=self.seed,
             shuffle=True,
         )
 
         shape_table = PrettyTable()
-        shape_table.field_names = ["Partition", "[0]_shape", "[1]_shape"]
-        shape_table.add_row(["train_df", train_df.shape[0], train_df.shape[1]])
-        shape_table.add_row(["test_df", test_df.shape[0], test_df.shape[1]])
-        shape_table.add_row(["valid_df", valid_df.shape[0], valid_df.shape[1]])
-        print(shape_table)
 
-        print(train_df.head())
+        if split_partitions == 2:
+            shape_table.field_names = ["Partition", "[0]_shape", "[1]_shape"]
+            shape_table.add_row(["train_df", train_df.shape[0], train_df.shape[1]])
+            shape_table.add_row(["test_df", temp_df.shape[0], temp_df.shape[1]])
+            print(shape_table)
 
-        return train_df, test_df, valid_df
+            print(train_df.head())
+            return train_df, temp_df
 
-    def data_types_detector(self):
+        elif split_partitions == 3:
+            test_df, valid_df = train_test_split(
+                temp_df,
+                test_size=0.5,
+                random_state=self.seed,
+                shuffle=True,
+            )
+
+            shape_table.field_names = ["Partition", "[0]_shape", "[1]_shape"]
+            shape_table.add_row(["train_df", train_df.shape[0], train_df.shape[1]])
+            shape_table.add_row(["test_df", test_df.shape[0], test_df.shape[1]])
+            shape_table.add_row(["valid_df", valid_df.shape[0], valid_df.shape[1]])
+            print(shape_table)
+
+            print(train_df.head())
+            return train_df, test_df, valid_df
+        
+        else:
+            print("The number of partitions should be 2 or 3")
+
+    def _data_types_detector(self):
         pass
 
