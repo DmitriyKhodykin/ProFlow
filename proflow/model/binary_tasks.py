@@ -11,7 +11,7 @@ class BinaryTabularModels:
     def __init__(self):
         seed: int = config.SEED
         self.models: dict = config.binary_models
-        print("BinaryTabularModels:", self.models)
+        print("BinaryTabularModels:", self.models.keys())
 
         self.lr_model = LogisticRegression(
             penalty='l2',
@@ -61,9 +61,8 @@ class BinaryTabularModels:
         test_df: pd.DataFrame,
         label: str,
     ):
-        for model in self.models:
-            print(self.locals()[model])
-            self.locals()[model].fit(
+        for model in [self.lr_model, self.sgd_model]:
+            model.fit(
                 train_df.drop([label], axis=1),
                 train_df[label],
             )

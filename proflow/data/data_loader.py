@@ -23,6 +23,8 @@ class DataLoader:
         data_imputer: bool,
     ):
         df = pd.read_csv(df_dir, dtype={"index_oper": "str"}).sample(500_000)
+
+        df = df[["priority", "weight", "label"]]
         
         train_df, temp_df = train_test_split(
             df,
