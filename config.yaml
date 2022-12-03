@@ -1,8 +1,0 @@
-pipeline:
-  - preparation
-  - imputation
-  - representation
-  - fit
-  - eval
-  - inference
-  - drift_detection

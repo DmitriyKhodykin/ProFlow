@@ -4,17 +4,14 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from prettytable import PrettyTable
 
-import yaml
-from yaml.loader import SafeLoader
+from proflow import config
 
 
 class DataLoader:
 
     def __init__(self):
-        with open("../proflow/data/data_config.yaml") as _config:
-            params = yaml.load(_config, Loader=SafeLoader)
-            self.test_partition = params["data"]["preparation"]["test_size"]
-            self.seed = params["seed"]
+        self.test_partition = config.TEST_SIZE
+        self.seed = config.SEED
 
     def data_load(
         self, 
