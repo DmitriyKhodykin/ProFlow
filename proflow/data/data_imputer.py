@@ -1,20 +1,38 @@
 import numpy as np
+import pandas as pd
 from sklearn.experimental import enable_iterative_imputer
-from sklearn.impute import IterativeImputer
+from sklearn.impute import SimpleImputer, IterativeImputer, KNNImputer
 
 from proflow import config
 
 
 class Imputer:
 
-    def __init__(self):
-        self.imputer = IterativeImputer(
-            max_iter=10, 
-            random_state=config.SEED,
-        )
+    def __init__(
+        self, 
+        type="iterative",  # Or simple, knn
+    ):
+        if type == "iterative":
+            self.imputer = IterativeImputer(
+                max_iter=10, 
+                random_state=config.SEED,
+            )
+        
+        elif type == "simple":
+            self.imputer = SimpleImputer(
+                missing_values=np.nan, 
+                strategy="mean",
+            )
+        
+        elif type == "knn":
+            self.imputer = KNNImputer(
+                n_neighbors=2, 
+                weights="uniform",
+            )
 
-    def imput_data(self):
-        self.imputer.fit([[1, 2], [3, 6], [4, 8], [np.nan, 3], [7, np.nan]])
-        IterativeImputer(random_state=config.SEED)
-        X_test = [[np.nan, 2], [6, np.nan], [np.nan, 6]]
-        print(np.round(self.imputer.transform(X_test)))
+    def imput_data(
+        self,
+        df: pd.DataFrame,
+    ):
+        df_imputed = self.imputer.fit_transform(df)
+        return df_imputed
