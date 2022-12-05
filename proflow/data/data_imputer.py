@@ -10,7 +10,7 @@ class Imputer:
 
     def __init__(
         self, 
-        type="iterative",  # Or simple, knn
+        type="iterative",
     ):
         if type == "iterative":
             self.imputer = IterativeImputer(
@@ -34,5 +34,6 @@ class Imputer:
         self,
         df: pd.DataFrame,
     ):
+        df = df.replace('', np.nan)
         df_imputed = self.imputer.fit_transform(df)
         return df_imputed
