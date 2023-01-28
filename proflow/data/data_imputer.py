@@ -8,32 +8,30 @@ from proflow import config
 
 class Imputer:
 
-    def __init__(
-        self, 
-        type="iterative",
-    ):
-        if type == "iterative":
-            self.imputer = IterativeImputer(
-                max_iter=10, 
-                random_state=config.SEED,
-            )
-        
-        elif type == "simple":
-            self.imputer = SimpleImputer(
-                missing_values=np.nan, 
-                strategy="mean",
-            )
-        
-        elif type == "knn":
-            self.imputer = KNNImputer(
-                n_neighbors=2, 
-                weights="uniform",
-            )
+    def __init__(self):
+        pass
 
-    def imput_data(
-        self,
-        df: pd.DataFrame,
-    ):
-        df = df.replace('', np.nan)
-        df_imputed = self.imputer.fit_transform(df)
-        return df_imputed
+    def imput_data(self, df: pd.DataFrame):      
+
+        # Use the apply() method to detect the data types of each column
+        detected_data_types = self._data_types_detector(df)
+
+        # Define a dictionary of fill values for each column based on its data type
+        fill_values = {}
+        for column, dtype in detected_data_types.items():
+            if dtype == 'integer':
+                fill_values[column] = 0
+            elif dtype == 'floating':
+                fill_values[column] = df[column].mean()
+            else:
+                fill_values[column] = df[column].value_counts().idxmax()
+
+        # Use the fillna() method to fill in the gaps
+        df.fillna(value=fill_values, inplace=True)
+        return df
+
+    def _data_types_detector(self, df: pd.DataFrame):
+        data_types = df.apply(
+            lambda x: pd.api.types.infer_dtype(x.values)
+        )
+        return data_types

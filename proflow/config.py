@@ -3,7 +3,7 @@ SEED = 23
 
 # DATA
 TEST_SIZE =  0.3
-SAMPLING = 500_000
+SAMPLING = 50_000
 
 # MODELS
 task_type = [
