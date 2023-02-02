@@ -1,24 +1,30 @@
-"""Data representation patterns."""
+"""Паттерны для представления данных."""
 
 import numpy
 import pandas as pd
 import tensorflow as tf
 
 
-def df_series_to_hash(
+def hashed_series(
     dataframe: pd.DataFrame,
     col_name: str,
     num_of_buckets: int,
 ):
+    """All string values of the series are converted to hash."""
     pass
 
 
-def _string_to_hash_bucket(col_name: str, num_of_buckets: int):
-    fingerprint = tf.strings.to_hash_bucket_fast(
-        col_name,
-        num_of_buckets,
+def _string_to_hash(input_string: str, hash_bucket_size: int):
+    """Converts string to hash number using deterministic methods.
+    If you enter the same input_string you will get the same number.
+    """
+    hash_value = tf.strings.to_hash_bucket_fast(
+        input_string,
+        hash_bucket_size,
     ).numpy()
-    return fingerprint
+    return hash_value
 
 
-f = tf.feature_column.categorical_column_with_hash_bucket('artist_name', hash_bucket_size=200000)
+if __name__ == "__main__":
+    s = "Hello world"
+    print(f"Hash value for {s}", _string_to_hash(s, hash_bucket_size=1000))

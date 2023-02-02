@@ -14,7 +14,7 @@ class Imputer:
     def imput_data(self, df: pd.DataFrame):      
 
         # Use the apply() method to detect the data types of each column
-        detected_data_types = self._data_types_detector(df)
+        detected_data_types = self.data_types_detector(df)
 
         # Define a dictionary of fill values for each column based on its data type
         fill_values = {}
@@ -30,7 +30,7 @@ class Imputer:
         df.fillna(value=fill_values, inplace=True)
         return df
 
-    def _data_types_detector(self, df: pd.DataFrame):
+    def data_types_detector(self, df: pd.DataFrame):
         data_types = df.apply(
             lambda x: pd.api.types.infer_dtype(x.values)
         )
