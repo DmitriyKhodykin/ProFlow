@@ -1,17 +1,21 @@
-"""Паттерны для представления данных."""
+"""Patterns for data presentation."""
 
 import numpy
 import pandas as pd
 import tensorflow as tf
 
 
-def hashed_series(
+def hashed_text_in_column(
     dataframe: pd.DataFrame,
     col_name: str,
     num_of_buckets: int,
 ):
     """All string values of the series are converted to hash."""
-    pass
+    column = dataframe[col_name].copy()
+    column = column.apply(
+        lambda x: _string_to_hash(x, num_of_buckets)
+    )
+    return column
 
 
 def _string_to_hash(input_string: str, hash_bucket_size: int):
