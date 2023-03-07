@@ -1,4 +1,4 @@
-"""Модуль для загрузки данных из набора CSV."""
+"""Module for loading data from CSV."""
 
 import numpy as np
 import pandas as pd
@@ -20,8 +20,8 @@ class DataLoader:
         self.df = pd.read_csv(self.df_dir, dtype=dtype).sample(self.sampling)
 
     def data_load(self):
-        """Загрузка данных и заполнение пропусков данных относительно их типа.
-        Возвращает два набора данных: тренировочный и тестовый.
+        """Loads data and fills in data blanks relative to their type. 
+        Returns two sets of data: training and test.
         """
 
         train_df, test_df = train_test_split(

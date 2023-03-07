@@ -1,4 +1,4 @@
-"""Patterns for data presentation."""
+"""Patterns for data representation."""
 
 import numpy
 import pandas as pd

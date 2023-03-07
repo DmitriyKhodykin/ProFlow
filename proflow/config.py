@@ -4,6 +4,7 @@ SEED = 23
 # DATA
 TEST_SIZE =  0.3
 SAMPLING = 50_000
+BUCKETS_FOR_HASH = 100
 
 # MODELS
 task_type = [
