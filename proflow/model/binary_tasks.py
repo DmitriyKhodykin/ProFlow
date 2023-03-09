@@ -58,7 +58,6 @@ class BinaryTabularModels:
     def fit(
         self, 
         train_df: pd.DataFrame,
-        test_df: pd.DataFrame,
         label: str,
     ):
         for model in [self.lr_model, self.sgd_model]:

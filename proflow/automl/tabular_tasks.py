@@ -13,15 +13,15 @@ class FlowML:
         self.fitted_model = None
 
     def fit(
-        self, 
+        self,
         train_df: pd.DataFrame,
         label: str,
-    ):
+    ) -> None:
         if self.task == "binary":
             btm = BinaryTabularModels()
             fitted_binary_model = btm.fit(
                 train_df,
-                label,
+                label
             )
             self.fitted_model = fitted_binary_model
 
