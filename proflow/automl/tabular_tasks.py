@@ -3,7 +3,7 @@
 import pandas as pd
 from prettytable import PrettyTable
 
-from proflow.model.binary_tasks import BinaryTabularModels
+from proflow.model.binary_models import BinaryTabularModels
 
 class FlowML:
 
